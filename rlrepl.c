@@ -1,6 +1,6 @@
+#include <history.h>
 #include <janet.h>
 #include <readline.h>
-#include <history.h>
 
 static char *longest_common_prefix(char **strs, int n) {
   int shortest_len = -1;
@@ -39,7 +39,7 @@ static char *longest_common_prefix(char **strs, int n) {
 
 static JanetFunction *completion_janet_function = NULL;
 static char **rlrepl_readline_attempted_completion(const char *text, int start,
-                                                  int end) {
+                                                   int end) {
   if (!completion_janet_function)
     return NULL;
 
@@ -149,12 +149,9 @@ static Janet rlrepl_load_history(int32_t argc, Janet *argv) {
   return janet_wrap_nil();
 }
 
-static const JanetReg cfuns[] = {
-    {"readline", rlrepl_readline, NULL},
-    {"load-history", rlrepl_load_history, NULL},
-    {"save-history", rlrepl_save_history, NULL},
-    {NULL, NULL, NULL}};
+static const JanetReg cfuns[] = {{"readline", rlrepl_readline, NULL},
+                                 {"load-history", rlrepl_load_history, NULL},
+                                 {"save-history", rlrepl_save_history, NULL},
+                                 {NULL, NULL, NULL}};
 
-JANET_MODULE_ENTRY(JanetTable *env) {
-  janet_cfuns(env, "_rlrepl", cfuns);
-}
+JANET_MODULE_ENTRY(JanetTable *env) { janet_cfuns(env, "_rlrepl", cfuns); }
