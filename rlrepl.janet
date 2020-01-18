@@ -17,14 +17,15 @@
     (def [lineno] (parser/where p))
     (string "janet:" lineno ":" (parser/state p :delimiters) "> ")))
 
-(var *history-file* (string (os/getenv "HOME") "/.janet-rlrepl.history"))
+(var *history-file* nil)
 
 (defn rlrepl
   [&opt replenv]
   (default replenv (fiber/getenv (fiber/current)))
 
-  (when (os/stat *history-file*)
-    (_rlrepl/load-history *history-file*))
+  (when *history-file*
+    (when (os/stat *history-file*)
+      (_rlrepl/load-history *history-file*)))
   
   (defn getline [prompt buf]
     (defn get-completions
@@ -44,7 +45,8 @@
     (getline prompt buf))
 
   (repl getchunk nil replenv)
-  (_rlrepl/save-history *history-file*))
+  (when *history-file*
+    (_rlrepl/save-history *history-file*)))
 
 (def save-history _rlrepl/save-history)
 (def load-history _rlrepl/load-history)
