@@ -31,7 +31,10 @@
       [line start end]
       (try
         (*get-completions* replenv line start end)
-        ([err] @[])))
+        ([err f]
+          (eprint "error in tab completion function:")
+          (debug/stacktrace f err)
+          @[])))
     (when-let [ln (_rlrepl/readline prompt get-completions)]
       (buffer/push-string buf ln "\n")
       buf))
