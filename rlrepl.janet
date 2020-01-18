@@ -20,12 +20,12 @@
 (var *history-file* (string (os/getenv "HOME") "/.janet-rlrepl.history"))
 
 (defn rlrepl
-  []
+  [&opt replenv]
+  (default replenv (fiber/getenv (fiber/current)))
+
   (when (os/stat *history-file*)
     (_rlrepl/load-history *history-file*))
   
-  (def replenv (make-env))
-
   (defn getline [prompt buf]
     (defn get-completions
       [line start end]

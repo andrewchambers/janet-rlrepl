@@ -1,6 +1,6 @@
-#include <history.h>
 #include <janet.h>
 #include <readline.h>
+#include <history.h>
 
 static char *longest_common_prefix(char **strs, int n) {
   int shortest_len = -1;
