@@ -9,19 +9,19 @@
   :name "rlrepl"
   :source ["rlrepl.janet"])
 
-(defn exec_get_string_and_exit_code [args]
+(defn exec-get-string-and-exit-code [args]
   (def env (os/environ))
   (def streams (os/pipe))
   (put env :out (streams 1))
   (def proc (os/spawn args :pe env))
   (ev/close (streams 1))
   (def text (string/trim (ev/read (streams 0) :all)))
-  (def exit_code (os/proc-wait proc))
-  {:exit_code exit_code :text text})
+  (def exit-code (os/proc-wait proc))
+  {:exit-code exit-code :text text})
 
 (defn pkg-config [& what]
-  (def result (exec_get_string_and_exit_code ["pkg-config" ;what]))
-  (unless (zero? (result :exit_code))
+  (def result (exec-get-string-and-exit-code ["pkg-config" ;what]))
+  (unless (zero? (result :exit-code))
     (error "pkg-config failed!"))
   (string/split " " (result :text)))
 
