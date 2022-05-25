@@ -16,6 +16,7 @@
   (def proc (os/spawn args :pe env))
   (ev/close (streams 1))
   (def text (string/trim (ev/read (streams 0) :all)))
+  (def exit_code (os/proc-wait proc))
   {:exit_code exit_code :text text})
 
 (defn pkg-config [& what]
