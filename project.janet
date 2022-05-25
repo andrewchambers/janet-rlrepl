@@ -13,9 +13,10 @@
   (def env (os/environ))
   (def streams (os/pipe))
   (put env :out (streams 1))
-  (def exit_code (os/execute args :pe env))
+  (def proc (os/spawn args :pe env))
   (ev/close (streams 1))
-  {:exit_code exit_code :text (string/trim (ev/read (streams 0) :all))})
+  (def text (string/trim (ev/read (streams 0) :all)))
+  {:exit_code exit_code :text text})
 
 (defn pkg-config [& what]
   (def result (exec_get_string_and_exit_code ["pkg-config" ;what]))
