@@ -1,6 +1,7 @@
 
 (declare-project
   :name "rlrepl"
+  :description "A Janet repl using GNU readline"
   :author "Andrew Chambers"
   :url "https://github.com/andrewchambers/janet-rlrepl"
   :repo "git+https://github.com/andrewchambers/janet-rlrepl.git")
